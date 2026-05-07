@@ -1,0 +1,149 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600&display=swap');
+
+:root {
+  --bg: #f8fafc;
+  --panel: rgba(255, 255, 255, 0.85);
+  --panel-strong: #ffffff;
+  --line: #e2e8f0;
+  --text: #334155;
+  --muted: #64748b;
+  --heading: #0f172a;
+  
+  /* Primary Accent Colors */
+  --accent: #4f46e5;
+  --accent-soft: #e0e7ff;
+  --accent-strong: #3730a3;
+  --accent-hover: #4338ca;
+  
+  /* Secondary / Warm Colors */
+  --warm: #f59e0b;
+  --warm-soft: #fef3c7;
+  
+  /* Success / Info / Danger */
+  --success: #10b981;
+  --info: #0ea5e9;
+  --danger: #ef4444;
+
+  --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+  --shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  
+  --radius-xl: 24px;
+  --radius-lg: 16px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
+  
+  --sans: 'Outfit', sans-serif;
+  --sans-body: 'Inter', sans-serif;
+  --mono: 'Cascadia Code', Consolas, monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  color: var(--text);
+  background: 
+    radial-gradient(circle at 15% 50%, rgba(79, 70, 229, 0.08), transparent 25%),
+    radial-gradient(circle at 85% 30%, rgba(245, 158, 11, 0.08), transparent 25%),
+    var(--bg);
+  background-attachment: fixed;
+  font: 16px/1.6 var(--sans-body);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--sans);
+  color: var(--heading);
+}
+
+button, input, select, textarea {
+  font-family: var(--sans-body);
+}
+
+code {
+  font-family: var(--mono);
+  background: rgba(79, 70, 229, 0.1);
+  color: var(--accent-strong);
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.9em;
+}
+
+#app {
+  min-height: 100vh;
+}
+
+/* Common utilities */
+.eyebrow {
+  margin: 0 0 8px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-size: 0.85rem;
+  font-weight: 700;
+  font-family: var(--sans);
+}
+
+.lead {
+  color: var(--muted);
+  font-size: 1.15rem;
+  max-width: 800px;
+  margin-top: 8px;
+}
+
+/* Form Styles for consistency */
+input, select, textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  background: #ffffff;
+  color: var(--text);
+  transition: all 0.2s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+/* Button variants */
+.btn-primary {
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 12px 24px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+}
+
+.btn-secondary {
+  background: white;
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 12px 24px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background: var(--bg);
+  border-color: var(--muted);
+}
