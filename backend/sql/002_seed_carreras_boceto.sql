@@ -557,10 +557,10 @@ MED	Cirugia I	Anatomia Humana II	Importado desde carreras.pdf
 MED	Cirugia I	Fisiologia	Importado desde carreras.pdf
 \.
 
-INSERT INTO materias_prerrequisito (materia_id, prerrequisito_id, nota)
+INSERT INTO materias_prerrequisito (materia_codigo, prerrequisito_codigo, nota)
 SELECT
-  destino.id,
-  origen.id,
+  destino.codigo,
+  origen.codigo,
   spr.nota
 FROM seed_prerrequisitos_raw spr
 INNER JOIN carreras c ON c.codigo = spr.carrera_codigo
@@ -570,7 +570,7 @@ INNER JOIN materias destino
 INNER JOIN materias origen
   ON origen.carrera_id = c.id
  AND origen.nombre = spr.prerrequisito_nombre
-ON CONFLICT (materia_id, prerrequisito_id) DO UPDATE
+ON CONFLICT (materia_codigo, prerrequisito_codigo) DO UPDATE
 SET nota = EXCLUDED.nota;
 
 COMMIT;

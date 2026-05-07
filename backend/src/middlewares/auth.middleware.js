@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
+const env = require('../config/env');
 
-const JWT_SECRET = process.env.JWT_SECRET || 'supersecreto_123';
+const JWT_SECRET = env.jwtSecret;
 
 const authMiddleware = (req, res, next) => {
   const token = req.header('Authorization')?.split(' ')[1];
@@ -14,7 +15,7 @@ const authMiddleware = (req, res, next) => {
     req.user = verified;
     next();
   } catch (err) {
-    res.status(400).json({ message: 'Token inválido o expirado' });
+    res.status(401).json({ message: 'Token inválido o expirado' });
   }
 };
 

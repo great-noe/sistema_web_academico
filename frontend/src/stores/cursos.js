@@ -1,8 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import axios from 'axios'
-
-const API_URL = 'http://localhost:3001/api/cursos'
+import api from '../servicios/api'
 
 export const useCursosStore = defineStore('cursos', () => {
   const cursos = ref([])
@@ -13,7 +11,7 @@ export const useCursosStore = defineStore('cursos', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await axios.get(API_URL)
+      const response = await api.get('/cursos')
       cursos.value = response.data
     } catch (err) {
       error.value = err.response?.data?.message || 'Error al cargar los cursos'
@@ -24,7 +22,7 @@ export const useCursosStore = defineStore('cursos', () => {
 
   async function crearCurso(cursoData) {
     try {
-      const response = await axios.post(API_URL, cursoData)
+      const response = await api.post('/cursos', cursoData)
       cursos.value.unshift(response.data.curso)
       return { success: true }
     } catch (err) {
@@ -34,7 +32,7 @@ export const useCursosStore = defineStore('cursos', () => {
 
   async function editarCurso(id, cursoData) {
     try {
-      const response = await axios.put(`${API_URL}/${id}`, cursoData)
+      const response = await api.put(`/cursos/${id}`, cursoData)
       const index = cursos.value.findIndex(c => c.id === id)
       if (index !== -1) {
         cursos.value[index] = response.data.curso
@@ -49,7 +47,7 @@ export const useCursosStore = defineStore('cursos', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await axios.get(`${API_URL}/disponibles`)
+      const response = await api.get('/cursos/disponibles')
       cursos.value = response.data
     } catch (err) {
       error.value = err.response?.data?.message || 'Error al cargar los cursos disponibles'
@@ -60,8 +58,7 @@ export const useCursosStore = defineStore('cursos', () => {
 
   async function inscribirCurso(id) {
     try {
-      const response = await axios.post(`${API_URL}/${id}/inscribir`)
-      // Remover curso de la lista si estábamos en la vista de 'disponibles'
+      const response = await api.post(`/cursos/${id}/inscribir`)
       cursos.value = cursos.value.filter(c => c.id !== id)
       return { success: true, message: response.data.message }
     } catch (err) {
@@ -71,7 +68,7 @@ export const useCursosStore = defineStore('cursos', () => {
 
   async function eliminarCurso(id) {
     try {
-      await axios.delete(`${API_URL}/${id}`)
+      await api.delete(`/cursos/${id}`)
       cursos.value = cursos.value.filter(c => c.id !== id)
       return { success: true }
     } catch (err) {
@@ -81,7 +78,7 @@ export const useCursosStore = defineStore('cursos', () => {
 
   async function getCalificaciones(cursoId) {
     try {
-      const response = await axios.get(`${API_URL}/${cursoId}/calificaciones`)
+      const response = await api.get(`/cursos/${cursoId}/calificaciones`)
       return { success: true, data: response.data }
     } catch (err) {
       return { success: false, message: err.response?.data?.message || 'Error al cargar calificaciones' }
@@ -90,7 +87,7 @@ export const useCursosStore = defineStore('cursos', () => {
 
   async function saveCalificaciones(cursoId, calificaciones) {
     try {
-      const response = await axios.put(`${API_URL}/${cursoId}/calificaciones`, { calificaciones })
+      const response = await api.put(`/cursos/${cursoId}/calificaciones`, { calificaciones })
       return { success: true, message: response.data.message }
     } catch (err) {
       return { success: false, message: err.response?.data?.message || 'Error al guardar calificaciones' }

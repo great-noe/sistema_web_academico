@@ -1,11 +1,13 @@
 <script setup>
 import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '../stores/auth'
+import { useThemeStore } from '../stores/theme'
 import { computed } from 'vue'
 
 const route = useRoute()
 const router = useRouter()
 const authStore = useAuthStore()
+const themeStore = useThemeStore()
 
 // If user somehow gets here without auth (e.g. initial load before guard catches it)
 if (!authStore.user) {
@@ -54,8 +56,12 @@ const canSeeUsuarios = computed(() => authStore.hasRole(['Administrador']))
           <span class="icon">👥</span> Usuarios
         </router-link>
         
+        <router-link v-if="canSeeUsuarios" to="/carreras" class="nav-item" :class="{ active: route.path.includes('/carreras') }">
+          <span class="icon">📚</span> Carreras
+        </router-link>
+        
         <router-link to="/reportes" class="nav-item" :class="{ active: route.path.includes('/reportes') }">
-          <span class="icon">📄</span> Reportes RF12
+          <span class="icon">📄</span> Reportes
         </router-link>
       </nav>
       
@@ -83,8 +89,9 @@ const canSeeUsuarios = computed(() => authStore.hasRole(['Administrador']))
           <div class="role-badge" :class="user.role.toLowerCase()">
             {{ user.role }}
           </div>
-          <button class="action-btn">🔔</button>
-          <button class="action-btn">⚙️</button>
+          <button class="action-btn theme-toggle" @click="themeStore.toggle" :title="themeStore.theme === 'light' ? 'Modo oscuro' : 'Modo claro'">
+            {{ themeStore.theme === 'light' ? '🌙' : '☀️' }}
+          </button>
         </div>
       </header>
       
@@ -115,7 +122,7 @@ const canSeeUsuarios = computed(() => authStore.hasRole(['Administrador']))
   display: flex;
   flex-direction: column;
   z-index: 10;
-  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.02);
+  box-shadow: 4px 0 24px var(--overlay-light);
 }
 
 .sidebar-header {
@@ -170,7 +177,7 @@ const canSeeUsuarios = computed(() => authStore.hasRole(['Administrador']))
 .nav-item.active {
   background: var(--accent);
   color: white;
-  box-shadow: 0 8px 16px rgba(79, 70, 229, 0.2);
+  box-shadow: 0 8px 16px var(--accent-soft);
 }
 
 .nav-item .icon {
@@ -237,7 +244,7 @@ const canSeeUsuarios = computed(() => authStore.hasRole(['Administrador']))
 }
 
 .logout-btn:hover {
-  background: #fef2f2;
+  background: rgba(239, 68, 68, 0.1);
   color: var(--danger);
 }
 
@@ -255,7 +262,7 @@ const canSeeUsuarios = computed(() => authStore.hasRole(['Administrador']))
   align-items: center;
   justify-content: space-between;
   padding: 0 40px;
-  background: rgba(255, 255, 255, 0.6);
+  background: var(--panel);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--line);
@@ -265,12 +272,12 @@ const canSeeUsuarios = computed(() => authStore.hasRole(['Administrador']))
 .search-bar {
   display: flex;
   align-items: center;
-  background: white;
+  background: var(--panel-strong);
   border: 1px solid var(--line);
   border-radius: 999px;
   padding: 8px 20px;
   width: 350px;
-  box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+  box-shadow: inset 0 2px 4px var(--overlay-light);
   transition: all 0.3s ease;
 }
 
@@ -310,12 +317,12 @@ const canSeeUsuarios = computed(() => authStore.hasRole(['Administrador']))
   font-family: var(--sans);
 }
 
-.role-badge.administrador { background: #f3e8ff; color: #6b21a8; }
-.role-badge.docente { background: #e0f2fe; color: #0369a1; }
-.role-badge.estudiante { background: #dcfce7; color: #15803d; }
+.role-badge.administrador { background: rgba(129, 140, 248, 0.15); color: var(--accent-strong); }
+.role-badge.docente { background: rgba(56, 189, 248, 0.15); color: var(--info); }
+.role-badge.estudiante { background: rgba(52, 211, 153, 0.15); color: var(--success); }
 
 .action-btn {
-  background: white;
+  background: var(--panel-strong);
   border: 1px solid var(--line);
   border-radius: 50%;
   width: 44px;
@@ -326,6 +333,10 @@ const canSeeUsuarios = computed(() => authStore.hasRole(['Administrador']))
   cursor: pointer;
   font-size: 1.2rem;
   transition: all 0.2s;
+}
+
+.theme-toggle {
+  font-size: 1.3rem;
 }
 
 .action-btn:hover {

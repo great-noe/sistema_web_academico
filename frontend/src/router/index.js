@@ -55,6 +55,12 @@ const router = createRouter({
           name: 'Usuarios',
           component: Usuarios,
           meta: { roles: ['Administrador'] }
+        },
+        {
+          path: 'carreras',
+          name: 'Carreras',
+          component: () => import('../vistas/Carreras.vue'),
+          meta: { roles: ['Administrador'] }
         }
       ]
     }

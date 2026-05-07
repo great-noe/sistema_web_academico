@@ -14,27 +14,23 @@ const loading = ref(false)
 const handleLogin = async () => {
   loading.value = true
   errorMessage.value = ''
-  
-  // Usamos await directamente o dentro de un async setTimeout
-  setTimeout(async () => {
-    try {
-      const result = await authStore.login(username.value, password.value)
-      if (result.success) {
-        router.push('/')
-      } else {
-        errorMessage.value = result.message
-      }
-    } catch (error) {
-      errorMessage.value = 'Error de conexión.'
-    } finally {
-      loading.value = false
+  try {
+    const result = await authStore.login(username.value, password.value)
+    if (result.success) {
+      router.push('/')
+    } else {
+      errorMessage.value = result.message
     }
-  }, 600) // Simulate network delay
+  } catch (error) {
+    errorMessage.value = 'Error de conexión.'
+  } finally {
+    loading.value = false
+  }
 }
 
 const autofill = (role) => {
   username.value = role
-  password.value = '123456'
+  password.value = 'academico2025'
 }
 </script>
 
@@ -86,11 +82,11 @@ const autofill = (role) => {
       <div class="test-accounts">
         <p class="eyebrow">Cuentas de prueba (Clic para rellenar)</p>
         <div class="test-badges">
-          <button @click="autofill('admin')" type="button" class="badge admin">Admin</button>
-          <button @click="autofill('docente')" type="button" class="badge docente">Docente</button>
-          <button @click="autofill('estudiante')" type="button" class="badge estudiante">Estudiante</button>
+          <button @click="autofill('admin@sistema.edu')" type="button" class="badge admin">Admin</button>
+          <button @click="autofill('docente@sistema.edu')" type="button" class="badge docente">Docente</button>
+          <button @click="autofill('estudiante@sistema.edu')" type="button" class="badge estudiante">Estudiante</button>
         </div>
-        <p class="hint">Contraseña para todos: <strong>123456</strong></p>
+        <p class="hint">Contraseña para todos: <strong>academico2025</strong></p>
       </div>
     </div>
   </div>
@@ -111,7 +107,7 @@ const autofill = (role) => {
 .login-container {
   width: 100%;
   max-width: 440px;
-  background: white;
+  background: var(--panel-strong);
   border-radius: var(--radius-xl);
   padding: 48px;
   box-shadow: var(--shadow-hover);
@@ -177,13 +173,13 @@ const autofill = (role) => {
 }
 
 .error-message {
-  background: #fef2f2;
+  background: rgba(239, 68, 68, 0.1);
   color: var(--danger);
   padding: 12px;
   border-radius: var(--radius-md);
   font-size: 0.9rem;
   text-align: center;
-  border: 1px solid #fca5a5;
+  border: 1px solid var(--danger);
 }
 
 .test-accounts {
@@ -219,9 +215,9 @@ const autofill = (role) => {
   transform: translateY(-2px);
 }
 
-.badge.admin { background: #f3e8ff; color: #6b21a8; }
-.badge.docente { background: #e0f2fe; color: #0369a1; }
-.badge.estudiante { background: #dcfce7; color: #15803d; }
+.badge.admin { background: rgba(129, 140, 248, 0.15); color: var(--accent-strong); }
+.badge.docente { background: rgba(56, 189, 248, 0.15); color: var(--info); }
+.badge.estudiante { background: rgba(52, 211, 153, 0.15); color: var(--success); }
 
 .hint {
   font-size: 0.85rem;

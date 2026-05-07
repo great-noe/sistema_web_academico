@@ -1,110 +1,95 @@
-export const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:3001/api'
+import { API_URL } from './api'
+
+export const apiBase = API_URL
 
 export const reportDefinitions = [
   {
-    id: 'student-grades',
-    eyebrow: 'RF12',
+    id: 'studentGrades',
+    eyebrow: 'Notas',
     title: 'Notas por alumno',
-    description: 'Consolida todos los cursos del alumno, con filtros por periodo, gestion y carrera.',
-    endpoint: '/reportes/alumnos/:studentId/notas',
+    description: 'Notas de todos los cursos de un alumno específico.',
+    endpoint: '/reportes/alumnos/:studentCi/notas',
+    roles: ['Administrador', 'Estudiante'],
     fields: [
-      { name: 'studentId', label: 'ID del alumno', placeholder: '101', required: true, type: 'number' },
-      { name: 'periodo', label: 'Periodo', placeholder: '1-2026' },
-      { name: 'gestion', label: 'Gestion', placeholder: '2026', type: 'number' },
-      { name: 'carreraId', label: 'Carrera ID', placeholder: '3', type: 'number' },
-      { name: 'busqueda', label: 'Buscar curso', placeholder: 'Base de Datos' },
-    ],
+      { key: 'studentCi', label: 'Alumno', type: 'text', required: true, autoFillRole: 'Estudiante' },
+    ]
   },
   {
-    id: 'course-grades',
-    eyebrow: 'RF12',
+    id: 'courseGrades',
+    eyebrow: 'Notas',
     title: 'Notas por curso',
-    description: 'Lista las notas de todos los alumnos inscritos a un curso concreto.',
+    description: 'Notas de todos los alumnos inscritos en un curso.',
     endpoint: '/reportes/cursos/:courseId/notas',
+    roles: ['Administrador', 'Docente'],
     fields: [
-      { name: 'courseId', label: 'ID del curso', placeholder: '55', required: true, type: 'number' },
-      { name: 'periodo', label: 'Periodo', placeholder: '1-2026' },
-      { name: 'gestion', label: 'Gestion', placeholder: '2026', type: 'number' },
-      { name: 'carreraId', label: 'Carrera ID', placeholder: '3', type: 'number' },
-      { name: 'estadoInscripcion', label: 'Estado inscripcion', placeholder: 'inscrito' },
-    ],
+      { key: 'courseId', label: 'Curso', type: 'number', required: true },
+    ]
   },
   {
-    id: 'student-history',
-    eyebrow: 'RF12 pendiente',
-    title: 'Historial academico',
-    description: 'Cierra el reporte faltante con vista cronologica, creditos y promedio general.',
-    endpoint: '/reportes/alumnos/:studentId/historial',
+    id: 'studentHistory',
+    eyebrow: 'Historial',
+    title: 'Historial académico',
+    description: 'Historial académico completo de un alumno.',
+    endpoint: '/reportes/alumnos/:studentCi/historial',
+    roles: ['Administrador', 'Estudiante'],
     fields: [
-      { name: 'studentId', label: 'ID del alumno', placeholder: '101', required: true, type: 'number' },
-      { name: 'gestion', label: 'Gestion', placeholder: '2026', type: 'number' },
-      { name: 'periodo', label: 'Periodo', placeholder: '2-2026' },
-      { name: 'semestre', label: 'Semestre', placeholder: '5', type: 'number' },
-    ],
+      { key: 'studentCi', label: 'Alumno', type: 'text', required: true, autoFillRole: 'Estudiante' },
+    ]
   },
   {
-    id: 'course-students',
-    eyebrow: 'RF12 pendiente',
-    title: 'Alumnos inscritos por curso',
-    description: 'Listado detallado del curso con estado de inscripcion y nota final.',
+    id: 'courseStudents',
+    eyebrow: 'Listado',
+    title: 'Alumnos inscritos',
+    description: 'Listado de alumnos inscritos en un curso.',
     endpoint: '/reportes/cursos/:courseId/alumnos',
+    roles: ['Administrador', 'Docente'],
     fields: [
-      { name: 'courseId', label: 'ID del curso', placeholder: '55', required: true, type: 'number' },
-      { name: 'gestion', label: 'Gestion', placeholder: '2026', type: 'number' },
-      { name: 'periodo', label: 'Periodo', placeholder: '2-2026' },
-      { name: 'estadoInscripcion', label: 'Estado inscripcion', placeholder: 'inscrito' },
-    ],
+      { key: 'courseId', label: 'Curso', type: 'number', required: true },
+    ]
   },
   {
-    id: 'student-courses',
-    eyebrow: 'RF12 pendiente',
+    id: 'studentCourses',
+    eyebrow: 'Cursos',
     title: 'Cursos del alumno',
-    description: 'Listado detallado con filtros por carrera, periodo, estado y texto libre.',
-    endpoint: '/reportes/alumnos/:studentId/cursos',
+    description: 'Listado de cursos en los que está inscrito un alumno.',
+    endpoint: '/reportes/alumnos/:studentCi/cursos',
+    roles: ['Administrador', 'Estudiante'],
     fields: [
-      { name: 'studentId', label: 'ID del alumno', placeholder: '101', required: true, type: 'number' },
-      { name: 'gestion', label: 'Gestion', placeholder: '2026', type: 'number' },
-      { name: 'periodo', label: 'Periodo', placeholder: '2-2026' },
-      { name: 'estadoInscripcion', label: 'Estado inscripcion', placeholder: 'inscrito' },
-      { name: 'carreraId', label: 'Carrera ID', placeholder: '3', type: 'number' },
-      { name: 'busqueda', label: 'Buscar curso', placeholder: 'Programacion' },
-    ],
+      { key: 'studentCi', label: 'Alumno', type: 'text', required: true, autoFillRole: 'Estudiante' },
+    ]
   },
   {
-    id: 'teacher-courses',
-    eyebrow: 'RF12 pendiente',
+    id: 'teacherCourses',
+    eyebrow: 'Cursos',
     title: 'Cursos del docente',
-    description: 'Listado detallado por docente con filtros de carrera, periodo y nombre de curso.',
-    endpoint: '/reportes/docentes/:teacherId/cursos',
+    description: 'Listado de cursos asignados a un docente.',
+    endpoint: '/reportes/docentes/:teacherCi/cursos',
+    roles: ['Administrador', 'Docente'],
     fields: [
-      { name: 'teacherId', label: 'ID del docente', placeholder: '17', required: true, type: 'number' },
-      { name: 'gestion', label: 'Gestion', placeholder: '2026', type: 'number' },
-      { name: 'periodo', label: 'Periodo', placeholder: '2-2026' },
-      { name: 'carreraId', label: 'Carrera ID', placeholder: '3', type: 'number' },
-      { name: 'busqueda', label: 'Buscar curso', placeholder: 'Arquitectura' },
-    ],
-  },
+      { key: 'teacherCi', label: 'Docente', type: 'text', required: true, autoFillRole: 'Docente' },
+    ]
+  }
 ]
 
 export function buildReportUrl(definition, form, format) {
-  let endpoint = definition.endpoint
-  const params = new URLSearchParams()
+  let url = `${API_URL}${definition.endpoint}`
 
-  definition.fields.forEach((field) => {
-    const value = form[field.name]
-    if (value === undefined || value === null || String(value).trim() === '') {
-      return
+  for (const field of definition.fields) {
+    if (form[field.key]) {
+      url = url.replace(`:${field.key}`, form[field.key])
     }
+  }
 
-    const token = `:${field.name}`
-    if (endpoint.includes(token)) {
-      endpoint = endpoint.replace(token, encodeURIComponent(String(value).trim()))
-      return
+  const queryParams = []
+  const filterableFields = ['periodo', 'gestion', 'carrera', 'busqueda', 'estado']
+
+  for (const key of filterableFields) {
+    if (form[key] && form[key] !== '') {
+      queryParams.push(`${key}=${encodeURIComponent(form[key])}`)
     }
+  }
 
-    params.set(field.name, String(value).trim())
-  })
+  queryParams.push(`formato=${format}`)
 
-  params.set('formato', format)
-  return `${apiBase}${endpoint}?${params.toString()}`
+  return `${url}?${queryParams.join('&')}`
 }

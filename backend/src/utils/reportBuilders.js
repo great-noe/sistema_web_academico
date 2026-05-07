@@ -93,17 +93,38 @@ async function buildExcelReport(report) {
   return Buffer.isBuffer(buffer) ? buffer : Buffer.from(buffer);
 }
 
-function buildTableLine(columns, row) {
-  return columns
-    .map((column) => {
-      const value = String(row[column.key] ?? '');
-      const width = Math.max(10, Math.min(column.width || 22, 28));
-      if (value.length <= width) {
-        return value.padEnd(width, ' ');
-      }
-      return `${value.slice(0, width - 3)}...`;
-    })
-    .join(' | ');
+function calcColWidths(totalWidth, columns) {
+  const fixed = columns.map((c) => Math.min(Math.max((c.width || 22) * 6, 50), 200));
+  const sum = fixed.reduce((a, b) => a + b, 0);
+  if (sum <= totalWidth) return fixed;
+  const ratio = totalWidth / sum;
+  return fixed.map((w) => Math.max(50, Math.floor(w * ratio)));
+}
+
+function truncateText(doc, text, maxW) {
+  let display = String(text);
+  if (display.length < 2) return display;
+  while (doc.widthOfString(display + '...') > maxW && display.length > 0) {
+    display = display.slice(0, -1);
+  }
+  return display !== String(text) ? display + '...' : display;
+}
+
+function drawTableCell(doc, x, y, w, h, text, opts = {}) {
+  const { bold, align = 'left', fill } = opts;
+  const savedY = doc.y;
+  if (fill) {
+    doc.rect(x, y, w, h).fill(fill);
+  }
+  doc.rect(x, y, w, h).stroke('#CBD5E1');
+  doc.font(bold ? 'Helvetica-Bold' : 'Helvetica').fontSize(8).fillColor(opts.color || '#0F172A');
+  const pad = 4;
+  const maxW = w - pad * 2;
+  const display = truncateText(doc, text, maxW);
+  const tx = x + pad;
+  const ty = y + (h - 10) / 2;
+  doc.text(display, tx, ty, { width: maxW, align });
+  doc.y = savedY;
 }
 
 function buildPdfReport(report) {
@@ -121,43 +142,69 @@ function buildPdfReport(report) {
 
     const columns = report.columns || [];
     const filters = normalizeFilters(report.filters);
-    const lineHeight = 14;
+    const pageW = doc.page.width - doc.page.margins.left - doc.page.margins.right;
+    const rowH = 20;
+    const headerH = 24;
+    const colWs = calcColWidths(pageW, columns);
+    const startX = doc.page.margins.left;
 
-    const ensureSpace = (needed = lineHeight * 2) => {
+    const drawHeader = () => {
+      let cx = startX;
+      columns.forEach((col, i) => {
+        drawTableCell(doc, cx, doc.y, colWs[i], headerH, col.header, {
+          bold: true,
+          align: 'center',
+          fill: '#0F4C5C',
+          color: '#FFFFFF',
+        });
+        cx += colWs[i];
+      });
+      doc.y += headerH;
+    };
+
+    const ensureSpace = (needed = rowH * 2) => {
       if (doc.y + needed >= doc.page.height - doc.page.margins.bottom) {
         doc.addPage();
+        doc.y = doc.page.margins.top;
+        drawHeader();
       }
     };
 
-    doc.font('Helvetica-Bold').fontSize(18).fillColor('#0F172A').text(report.title);
+    // Title
+    doc.font('Helvetica-Bold').fontSize(16).fillColor('#0F172A').text(report.title);
+    let hasSub = false;
     if (report.subtitle) {
-      doc.moveDown(0.2);
-      doc.font('Helvetica').fontSize(10).fillColor('#475569').text(report.subtitle);
+      hasSub = true;
+      doc.moveDown(0.15);
+      doc.font('Helvetica').fontSize(9).fillColor('#475569').text(report.subtitle);
     }
+    // Meta line: generation date + filters inline
+    if (!hasSub) doc.moveDown(0.15);
+    else doc.moveDown(0.25);
+    const metaParts = [`Generado: ${new Date().toLocaleString('es-BO')}`];
+    filters.forEach(([k, v]) => metaParts.push(`${k}: ${v}`));
+    doc.font('Helvetica').fontSize(8).fillColor('#64748B').text(metaParts.join('  |  '));
 
-    doc.moveDown(0.6);
-    doc.font('Helvetica').fontSize(9).fillColor('#334155').text(`Generado: ${new Date().toLocaleString('es-BO')}`);
-    filters.forEach(([key, value]) => {
-      doc.text(`${key}: ${value}`);
-    });
+    doc.moveDown(0.5);
+    drawHeader();
 
-    doc.moveDown(0.8);
-    doc.font('Courier-Bold').fontSize(8).fillColor('#0F172A');
-    const header = buildTableLine(columns, Object.fromEntries(columns.map((column) => [column.key, column.header])));
-    doc.text(header);
-    doc.moveTo(doc.x, doc.y + 2).lineTo(doc.page.width - doc.page.margins.right, doc.y + 2).stroke('#CBD5E1');
-    doc.moveDown(0.3);
-
-    doc.font('Courier').fontSize(8).fillColor('#111827');
-    (report.rows || []).forEach((row) => {
+    const rows = report.rows || [];
+    rows.forEach((row, ri) => {
       ensureSpace();
-      doc.text(buildTableLine(columns, row), {
-        lineBreak: true,
+      let cx = startX;
+      const fill = ri % 2 === 0 ? undefined : '#F8FAFC';
+      columns.forEach((col, i) => {
+        drawTableCell(doc, cx, doc.y, colWs[i], rowH, row[col.key] ?? '', {
+          fill,
+          color: '#111827',
+        });
+        cx += colWs[i];
       });
+      doc.y += rowH;
     });
 
-    if (!report.rows || report.rows.length === 0) {
-      ensureSpace();
+    if (rows.length === 0) {
+      ensureSpace(rowH * 3);
       doc.font('Helvetica-Oblique').fontSize(10).fillColor('#64748B').text(
         report.emptyMessage || 'No se encontraron registros para los filtros indicados.',
       );

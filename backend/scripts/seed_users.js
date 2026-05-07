@@ -4,41 +4,48 @@ const bcrypt = require('bcryptjs');
 async function seedUsers() {
   try {
     const salt = await bcrypt.genSalt(10);
-    const hash = await bcrypt.hash('123456', salt);
+    const defaultPassword = process.env.SEED_PASSWORD || 'academico2025';
+    const hash = await bcrypt.hash(defaultPassword, salt);
 
     console.log('Creando usuarios...');
 
     // Admin
     await pool.query(
-      `INSERT INTO usuarios (rol, nombres, apellidos, email, password_hash) 
-       VALUES ('admin', 'Carlos', 'Administrador', 'admin', $1) 
-       ON CONFLICT (email) DO NOTHING`,
+      `INSERT INTO usuarios (ci, rol, nombres, apellidos, email, password_hash) 
+       VALUES ('admin', 'admin', 'Carlos', 'Administrador', 'admin@sistema.edu', $1) 
+       ON CONFLICT (ci) DO NOTHING`,
       [hash]
     );
 
     // Docente
-    const docenteResult = await pool.query(
-      `INSERT INTO usuarios (rol, nombres, apellidos, email, password_hash) 
-       VALUES ('docente', 'Laura', 'Docente', 'docente', $1) 
-       ON CONFLICT (email) DO NOTHING RETURNING id`,
+    await pool.query(
+      `INSERT INTO usuarios (ci, rol, nombres, apellidos, email, password_hash) 
+       VALUES ('12345678', 'docente', 'Laura', 'Docente', 'docente@sistema.edu', $1) 
+       ON CONFLICT (ci) DO NOTHING`,
       [hash]
     );
-    if (docenteResult.rows.length > 0) {
-      await pool.query('INSERT INTO docentes (usuario_id, codigo_docente) VALUES ($1, $2)', [docenteResult.rows[0].id, 'DOC-001']);
-    }
+    await pool.query(
+      `INSERT INTO docentes (usuario_ci, codigo_docente) VALUES ($1, $2) 
+       ON CONFLICT (usuario_ci) DO NOTHING`,
+      ['12345678', 'DOC-001']
+    );
 
     // Estudiante
-    const estudianteResult = await pool.query(
-      `INSERT INTO usuarios (rol, nombres, apellidos, email, password_hash) 
-       VALUES ('estudiante', 'Juan', 'Estudiante', 'estudiante', $1) 
-       ON CONFLICT (email) DO NOTHING RETURNING id`,
+    await pool.query(
+      `INSERT INTO usuarios (ci, rol, nombres, apellidos, email, password_hash) 
+       VALUES ('87654321', 'estudiante', 'Juan', 'Estudiante', 'estudiante@sistema.edu', $1) 
+       ON CONFLICT (ci) DO NOTHING`,
       [hash]
     );
-    if (estudianteResult.rows.length > 0) {
-      await pool.query('INSERT INTO estudiantes (usuario_id, registro) VALUES ($1, $2)', [estudianteResult.rows[0].id, 'EST-001']);
-    }
+    await pool.query(
+      `INSERT INTO estudiantes (usuario_ci, registro) VALUES ($1, $2) 
+       ON CONFLICT (usuario_ci) DO NOTHING`,
+      ['87654321', 'EST-001']
+    );
 
-    console.log('✅ Usuarios creados correctamente (admin, docente, estudiante) con contraseña: 123456');
+    const pwdDisplay = process.env.SEED_PASSWORD ? 'variable SEED_PASSWORD' : 'academico2025';
+    console.log('✅ Usuarios creados correctamente (admin, docente, estudiante) con contraseña: ' + pwdDisplay);
+    console.log('   CIs: admin, 12345678, 87654321');
     process.exit(0);
   } catch (error) {
     console.error('Error al poblar usuarios:', error);

@@ -1,30 +1,43 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 import { useUsuariosStore } from '../stores/usuarios'
+import api from '../servicios/api'
 
 const usuariosStore = useUsuariosStore()
 
 const showModal = ref(false)
 const modalMode = ref('crear')
 const currentUserId = ref(null)
+const carrerasList = ref([])
 
 const formData = ref({
+  ci: '',
   nombres: '',
   apellidos: '',
   email: '',
   rol: 'estudiante',
-  password: ''
+  password: '',
+  carrera_id: ''
 })
 
-onMounted(() => {
+const isEstudiante = computed(() => formData.value.rol === 'estudiante')
+
+onMounted(async () => {
   usuariosStore.fetchUsuarios()
+  try {
+    const res = await api.get('/carreras')
+    carrerasList.value = res.data
+  } catch (e) {
+    console.error('Error al cargar carreras', e)
+  }
 })
 
 const openModal = (user = null) => {
   if (user) {
     modalMode.value = 'editar'
-    currentUserId.value = user.id
+    currentUserId.value = user.ci
     formData.value = {
+      ci: user.ci,
       nombres: user.nombres,
       apellidos: user.apellidos,
       email: user.email,
@@ -39,7 +52,8 @@ const openModal = (user = null) => {
       apellidos: '',
       email: '',
       rol: 'estudiante',
-      password: ''
+      password: '',
+      carrera_id: ''
     }
   }
   showModal.value = true
@@ -56,7 +70,11 @@ const saveUser = async () => {
       alert('La contraseña es requerida para un nuevo usuario.')
       return
     }
-    result = await usuariosStore.crearUsuario(formData.value)
+    const payload = {
+      ...formData.value,
+      carrera_id: formData.value.carrera_id || undefined
+    }
+    result = await usuariosStore.crearUsuario(payload)
   } else {
     // Para editar no enviamos contraseña aquí
     const dataToUpdate = {
@@ -119,6 +137,7 @@ const formatDate = (dateString) => {
       <table class="data-table">
         <thead>
           <tr>
+            <th>CI</th>
             <th>Rol</th>
             <th>Nombres</th>
             <th>Apellidos</th>
@@ -128,7 +147,8 @@ const formatDate = (dateString) => {
           </tr>
         </thead>
         <tbody>
-          <tr v-for="user in usuariosStore.usuarios" :key="user.id">
+          <tr v-for="user in usuariosStore.usuarios" :key="user.ci">
+            <td class="mono">{{ user.ci }}</td>
             <td>
               <span class="role-badge" :class="user.rol.toLowerCase()">
                 {{ user.rol.charAt(0).toUpperCase() + user.rol.slice(1) }}
@@ -140,11 +160,11 @@ const formatDate = (dateString) => {
             <td class="text-muted">{{ formatDate(user.created_at) }}</td>
             <td class="actions-col">
               <button @click="openModal(user)" class="btn-icon edit" title="Editar">✏️</button>
-              <button @click="deleteUser(user.id)" class="btn-icon delete" title="Eliminar">🗑️</button>
+              <button @click="deleteUser(user.ci)" class="btn-icon delete" title="Eliminar">🗑️</button>
             </td>
           </tr>
           <tr v-if="usuariosStore.usuarios.length === 0">
-            <td colspan="6" class="text-center empty-td">No hay usuarios registrados.</td>
+            <td colspan="7" class="text-center empty-td">No hay usuarios registrados.</td>
           </tr>
         </tbody>
       </table>
@@ -170,6 +190,11 @@ const formatDate = (dateString) => {
           </div>
           
           <div class="form-group">
+            <label>Cédula de Identidad (CI)</label>
+            <input v-model="formData.ci" type="text" required placeholder="Ej: 12345678" :disabled="modalMode === 'editar'" />
+          </div>
+
+          <div class="form-group">
             <label>Correo Electrónico</label>
             <input v-model="formData.email" type="email" required placeholder="ejemplo@academisys.edu" />
           </div>
@@ -187,6 +212,16 @@ const formatDate = (dateString) => {
               <label>Contraseña Provisional</label>
               <input v-model="formData.password" type="password" required placeholder="••••••••" />
             </div>
+          </div>
+
+          <div class="form-group" v-if="isEstudiante">
+            <label>Carrera</label>
+            <select v-model="formData.carrera_id">
+              <option value="">Selecciona una carrera</option>
+              <option v-for="c in carrerasList" :key="c.id" :value="c.id">
+                {{ c.codigo }} — {{ c.nombre }}
+              </option>
+            </select>
           </div>
 
           <footer class="modal-actions">
@@ -234,7 +269,7 @@ const formatDate = (dateString) => {
 }
 
 .loading-state, .error-state {
-  background: white;
+  background: var(--panel-strong);
   border-radius: var(--radius-lg);
   padding: 48px;
   text-align: center;
@@ -242,7 +277,7 @@ const formatDate = (dateString) => {
 }
 
 .table-container {
-  background: white;
+  background: var(--panel-strong);
   border-radius: var(--radius-lg);
   border: 1px solid var(--line);
   box-shadow: var(--shadow);
@@ -288,9 +323,9 @@ const formatDate = (dateString) => {
   display: inline-block;
 }
 
-.role-badge.admin { background: #f3e8ff; color: #6b21a8; }
-.role-badge.docente { background: #e0f2fe; color: #0369a1; }
-.role-badge.estudiante { background: #dcfce7; color: #15803d; }
+.role-badge.admin { background: rgba(129, 140, 248, 0.15); color: var(--accent-strong); }
+.role-badge.docente { background: rgba(56, 189, 248, 0.15); color: var(--info); }
+.role-badge.estudiante { background: rgba(52, 211, 153, 0.15); color: var(--success); }
 
 .fw-bold { font-weight: 600; color: var(--heading); }
 .text-muted { color: var(--muted); }
@@ -323,15 +358,15 @@ const formatDate = (dateString) => {
 }
 
 .btn-icon.delete:hover {
-  background: #fef2f2;
-  border-color: #fca5a5;
+  background: rgba(239, 68, 68, 0.1);
+  border-color: var(--danger);
 }
 
 /* Modal Styles */
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.6);
+  background: var(--overlay);
   backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
@@ -340,11 +375,11 @@ const formatDate = (dateString) => {
 }
 
 .modal {
-  background: white;
+  background: var(--panel-strong);
   border-radius: var(--radius-xl);
   width: 100%;
   max-width: 500px;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  box-shadow: var(--shadow-hover);
   overflow: hidden;
 }
 

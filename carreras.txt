@@ -1,0 +1,1341 @@
+1. Ingeniería de Sistemas (9 Semestres)
+Sem. Materia
+Área
+CR
+1 Metodología de la Inv. Científica
+Cs. Básicas
+5
+1 Fundamentos de Matemáticas
+Cs. de la Ingeniería
+5
+1 Inglés Técnico I
+Ingeniería Aplicada
+5
+1 Programación Básica
+Cs. Complementarias
+5
+1 Hardware, Software y Redes
+Cs. Complementarias
+5
+1 Estructuras Discretas
+Innovación Tecnológica
+5
+2 Álgebra Lineal
+Cs. Básicas
+6
+2 Cálculo I
+Cs. de la Ingeniería
+6
+2 Física I
+Ingeniería Aplicada
+5
+2 Programación I
+Cs. Complementarias
+6
+2 Sistemas Operativos I
+Cs. Complementarias
+6
+2 Ética y Ciudadanía Global
+Innovación Tecnológica
+5
+3 Estadística Descriptiva
+Cs. Básicas
+5
+3 Cálculo II
+Cs. de la Ingeniería
+6
+3 Gestión Financiera para TIC
+Ingeniería Aplicada
+6
+3 Programación II
+Cs. Complementarias
+6
+3 Sistemas Operativos II
+Cs. Complementarias
+5
+3 Sistemas Digitales I
+Innovación Tecnológica
+6
+4 Investigación Operativa I
+Cs. Básicas
+6
+4 Redes I
+Cs. de la Ingeniería
+6
+4 Análisis Numérico
+Ingeniería Aplicada
+6
+4 Programación III
+Cs. Complementarias
+6
+4 Base de Datos I
+Cs. Complementarias
+6
+4 Teoría de la Computación
+Innovación Tecnológica
+5
+5 Estadística Inferencial
+Cs. Básicas
+5
+5 Redes II
+Cs. de la Ingeniería
+6
+5 Estructuras de Datos
+Ingeniería Aplicada
+6
+5 Desarrollo Web I
+Cs. Complementarias
+6
+5 Base de Datos II
+Cs. Complementarias
+6
+5 Sistemas de Información I
+Innovación Tecnológica
+6
+6 Machine Learning
+Cs. Básicas
+6
+6 Desarrollo de Sistemas I
+Cs. de la Ingeniería
+6
+6 Desarrollo Web II
+Ingeniería Aplicada
+6
+
+---PAGE BREAK---
+6 Administración de Base de Datos Cs. Complementarias
+6
+6 Sistemas de Información II
+Innovación Tecnológica
+6
+6 Emprendedurismo e Innovación
+Innovación Tecnológica
+6
+7 Deep Learning
+Cs. Básicas
+6
+7 Desarrollo de Sistemas II
+Cs. de la Ingeniería
+6
+7 Aplicaciones Móviles
+Ingeniería Aplicada
+6
+7 Seguridad Informática
+Cs. Complementarias
+6
+7 Gerenciamiento TIC
+Innovación Tecnológica
+6
+7 Electiva 1
+Cs. Complementarias
+4
+8 Visión Computacional
+Cs. Básicas
+6
+8 Auditoría de Sistemas
+Cs. de la Ingeniería
+6
+8 Administración de Servidores
+Ingeniería Aplicada
+6
+8 Servicios de Infraestructura Nube Cs. Complementarias
+6
+8 Dirección de Proyectos
+Innovación Tecnológica
+6
+8 Electiva 2
+Innovación Tecnológica
+4
+9 Inteligencia de Negocios
+Cs. Básicas
+6
+9 Calidad de Software
+Cs. de la Ingeniería
+6
+9 DevOps
+Ingeniería Aplicada
+6
+9 Tecnología de Base de Datos
+Cs. Complementarias
+6
+9 Internet de las Cosas
+Innovación Tecnológica
+6
+9 Negocios Electrónicos
+Cs. Complementarias
+6
+Prerrequisitos Clave:
+Cálculo II ←Cálculo I
+Programación I ←Programación Básica
+Base de Datos II ←Base de Datos I
+Desarrollo de Sistemas I ←Programación III + Base de Datos I
+
+---PAGE BREAK---
+2. Medicina (10 Semestres)
+Nota: Para Medicina, el área se define por los ciclos curriculares de salud.
+Sem. Materia
+Área
+TH
+1 Anatomía Humana I
+Biomédicas
+200
+1 Embriología y Genética I
+Biomédicas
+100
+1 Biofísica
+Biomédicas
+100
+1 Bioquímica
+Biomédicas
+100
+1 Matemáticas
+Biomédicas
+80
+1 Comunicación y Redacción
+Biomédicas
+80
+2 Anatomía Humana II
+Biomédicas
+200
+2 Embriología y Genética II
+Biomédicas
+100
+2 Microbiología
+Biomédicas
+100
+2 Histología
+Biomédicas
+100
+2 Salud Pública I
+Salud Pública
+100
+2 Taller de Primeros Auxilios
+Biomédicas
+80
+3 Fisiología
+Biomédicas
+200
+3 Parasitología
+Biomédicas
+100
+3 Salud Pública II
+Salud Pública
+100
+3 Neuroanatomía
+Biomédicas
+100
+3 Bioética
+Salud Pública
+80
+4 Fisiopatología
+Biomédicas
+200
+4 Mecanismo de la Enfermedad Biomédicas
+100
+4 Salud Pública III
+Salud Pública
+100
+4 Inmunología
+Biomédicas
+100
+4 Psicología Médica
+Salud Pública
+80
+5 Semiología I
+Clínica
+200
+5 Farmacología I
+Clínica
+100
+5 Patología General
+Biomédicas
+100
+5 Imagenología I
+Clínica
+100
+6 Semiología II
+Clínica
+200
+6 Farmacología II
+Clínica
+100
+
+---PAGE BREAK---
+6 Patología Especial
+Clínica
+100
+6 Imagenología II
+Clínica
+100
+7 Medicina Interna I
+Clínica
+300
+7 Cirugía I
+Cirugía
+200
+7 Medicina Legal
+Clínica
+80
+8 Medicina Interna II
+Clínica
+300
+8 Cirugía II
+Cirugía
+200
+8 Ginecología y Obstetricia I
+Especialidades 150
+9 Pediatría
+Especialidades 200
+9 Ginecología y Obstetricia II
+Especialidades 150
+9 Psiquiatría
+Clínica
+100
+10 Internado Rotatorio I
+Práctica
+800
+Prerrequisitos Clave:
+Anatomía II ←Anatomía I
+Semiología ←Fisiopatología
+Cirugía I ←Anatomía II + Fisiología
+3 Contaduría Pública (8 Semestres)
+Sem. Materia
+Área
+CR
+1 Administración I
+Contabilidad y Normativa
+5
+1 Matemática Aplicada
+Gestión Financiera
+6
+1 Metodología de la Inv. Científica TIC y Analítica
+5
+1 Liderazgo y Comunicación
+Auditoría y Control
+5
+1 Introducción a la Economía
+Auditoría y Control
+5
+1 Contabilidad Empresarial I
+Contabilidad y Normativa
+6
+2 Administración II
+Contabilidad y Normativa
+5
+2 Cálculo I
+Gestión Financiera
+6
+2 Estadística Descriptiva
+TIC y Analítica
+5
+2 Microeconomía I
+Auditoría y Control
+5
+2 Contabilidad Empresarial II
+Contabilidad y Normativa
+6
+2 Ética y Ciudadanía Global
+TIC y Analítica
+5
+3 Estadística Inferencial
+TIC y Analítica
+5
+3 Macroeconomía
+Auditoría y Control
+5
+
+---PAGE BREAK---
+3 Derecho Societario
+Contabilidad y Normativa
+5
+3 Matemática Financiera
+Gestión Financiera
+5
+3 Informática Aplicada con IA
+TIC y Analítica
+6
+3 Contabilidad Empresarial III
+Contabilidad y Normativa
+6
+4 Finanzas Corporativas I
+Gestión Financiera
+6
+4 Tributación Aplicada I
+Contabilidad y Normativa
+5
+4 Contabilidad de Costos I
+Contabilidad y Normativa
+6
+4 Contabilidad Internacional
+Contabilidad y Normativa
+5
+4 Análisis de Datos con IA
+TIC y Analítica
+5
+4 Contabilidad Empresarial IV
+Contabilidad y Normativa
+6
+5 Finanzas Corporativas II
+Gestión Financiera
+6
+5 Tributación Aplicada II
+Contabilidad y Normativa
+5
+5 Contabilidad de Costos II
+Contabilidad y Normativa
+6
+5 Contabilidad de Sociedades
+Contabilidad y Normativa
+5
+5 Contabilidad de Servicios
+Contabilidad y Normativa
+5
+5 Contabilidad Bancaria
+Contabilidad y Normativa
+5
+6 Presupuesto y Planificación
+Gestión Financiera
+5
+6 Contabilidad Extractiva
+Contabilidad y Normativa
+5
+6 Contabilidad Agropecuaria
+Contabilidad y Normativa
+5
+6 Taller de Gestión Contable
+Contabilidad y Normativa
+7
+6 Contabilidad Integrada
+Contabilidad y Normativa
+5
+6 Auditoría Financiera I
+Auditoría y Control
+6
+7 Auditoría Financiera II
+Auditoría y Control
+6
+7 Auditoría de Sistemas
+Auditoría y Control
+5
+7 Preparación y Eval. Proyectos
+Gestión Financiera
+7
+7 Auditoría Tributaria y Fiscal
+Auditoría y Control
+6
+7 Taller de Auditoría Financiera
+Auditoría y Control
+7
+7 Electiva 1
+Especialización
+4
+8 Auditoría Gubernamental
+Auditoría y Control
+5
+8 Tributación Especializada
+Contabilidad y Normativa
+5
+8 Auditoría Operativa
+Auditoría y Control
+5
+8 Gestión Estratégica
+Gestión Financiera
+6
+8 Electiva 2
+Especialización
+4
+8 Taller de Grado
+Auditoría y Control
+7
+
+---PAGE BREAK---
+4 Ingeniería Comercial (8 Semestres)
+Sem. Materia
+Área
+CR
+1 Metodología de la Investigación
+Gestión Estratégica
+5
+1 Administración I
+Marketing
+5
+1 Liderazgo y Comunicación
+Gestión Económica
+5
+1 Matemática Aplicada
+Negocios Digitales
+6
+1 Introducción a la Economía
+Gestión Económica
+5
+1 Contabilidad Empresarial I
+Gestión Financiera
+5
+2 Ética y Ciudadanía Global
+Gestión Estratégica
+5
+2 Administración II
+Marketing
+5
+2 Fundamentos de Marketing
+Marketing
+5
+2 Cálculo I
+Gestión Económica
+6
+2 Estadística Descriptiva
+Gestión Económica
+5
+2 Contabilidad Empresarial II
+Gestión Financiera
+6
+3 Estadística Inferencial
+Gestión Económica
+5
+3 Microeconomía I
+Gestión Económica
+5
+3 Investigación de Mercados I
+Marketing
+6
+3 Matemática Financiera
+Gestión Financiera
+5
+3 Contabilidad de Costos I
+Gestión Financiera
+6
+3 Marketing Operativo
+Marketing
+6
+4 Macroeconomía
+Gestión Económica
+5
+4 Investigación de Mercados II
+Marketing
+6
+4 Marketing y Análisis Digital
+Marketing
+6
+4 Finanzas Corporativas I
+Gestión Financiera
+6
+4 Gerencia de Ventas
+Marketing
+5
+4 Análisis de Datos Estratégicos
+Negocios Digitales
+6
+5 Finanzas Corporativas II
+Gestión Financiera
+6
+5 Marketing Estratégico
+Marketing
+6
+5 Econometría
+Gestión Económica
+6
+5 Comercio Internacional
+Gestión Económica
+5
+5 Gestión del Talento Humano
+Gestión Estratégica
+5
+5 Marketing Digital
+Marketing
+6
+6 Design Thinking
+Negocios Digitales
+5
+6 Trading y Mercados Digitales
+Negocios Digitales
+5
+6 Gestión de la Calidad
+Gestión Estratégica
+6
+
+---PAGE BREAK---
+6 Marketing Internacional
+Marketing
+5
+6 Responsabilidad Social Emp.
+Gestión Estratégica
+5
+6 Electiva 1
+Gestión Estratégica
+4
+7 Prep. y Evaluación de Proyectos Gestión Financiera
+7
+7 Gestión Cadena Suministros
+Gestión Estratégica
+7
+7 Emprendedurismo e Innovación Negocios Digitales
+6
+7 Modelos Negocios Sostenibles
+Gestión Estratégica
+6
+7 Gerencia Estratégica
+Gestión Estratégica
+6
+7 Electiva 2
+Gestión Estratégica
+4
+8 Gerencia de Proyectos
+Gestión Estratégica
+7
+8 Simulación Empresarial Digital
+Negocios Digitales
+5
+8 Comunicación y Redacción Pub. Marketing
+6
+8 Taller de Grado
+Gestión Estratégica
+7
+8 Electiva 3
+Gestión Estratégica
+4
+5. Administración de Empresas (8 Semestres)
+Sem. Materia
+Área
+CR
+1 Metodología de la Investigación
+Gestión Empresarial
+5
+1 Administración I
+Gestión Empresarial
+5
+1 Liderazgo y Comunicación
+Gestión Empresarial
+5
+1 Matemática Aplicada
+Gestión Contable
+6
+1 Introducción a la Economía
+Negocios y Proyectos
+5
+1 Contabilidad Empresarial I
+Gestión Contable
+5
+2 Ética y Ciudadanía Global
+Gestión Empresarial
+5
+2 Administración II
+Gestión Empresarial
+5
+2 Diseño Organizacional
+Talento Humano
+5
+2 Cálculo I
+Gestión Contable
+6
+2 Estadística Descriptiva
+Negocios y Proyectos
+5
+2 Contabilidad Empresarial II
+Gestión Contable
+6
+3 Estadística Inferencial
+Negocios y Proyectos
+5
+3 Microeconomía I
+Negocios y Proyectos
+5
+3 Investigación de Mercados I
+Negocios y Proyectos
+6
+3 Matemática Financiera
+Gestión Contable
+5
+3 Contabilidad de Costos I
+Gestión Contable
+6
+3 Gestión del Talento Humano I
+Talento Humano
+5
+
+---PAGE BREAK---
+4 Macroeconomía
+Negocios y Proyectos
+5
+4 Investigación de Mercados II
+Negocios y Proyectos
+6
+4 Finanzas Corporativas I
+Gestión Contable
+6
+4 Derecho Societario
+Negocios y Proyectos
+5
+4 Presupuesto y Planificación
+Gestión Contable
+5
+4 Gestión del Talento Humano II
+Talento Humano
+5
+5 Finanzas Corporativas II
+Gestión Contable
+6
+5 Tributación Aplicada I
+Gestión Contable
+5
+5 Mercado de Valores
+Gestión Contable
+6
+5 Marketing y Comercialización
+Negocios y Proyectos
+6
+5 Inteligencia de Negocios
+Negocios y Proyectos
+6
+5 Gestión de la Calidad
+Gestión Empresarial
+6
+6 Administración Pública I
+Gestión Empresarial
+5
+6 Negociación y Resolución Conf. Talento Humano
+5
+6 Responsabilidad Social Emp.
+Gestión Empresarial
+5
+6 Comportamiento Organizacional Talento Humano
+5
+6 Electiva 1
+Negocios y Proyectos
+4
+7 Prep. y Evaluación de Proyectos Negocios y Proyectos
+7
+7 Gerencia Estratégica
+Gestión Empresarial
+6
+7 Emprendedurismo e Innovación Negocios y Proyectos
+6
+7 Administración Pública II
+Gestión Empresarial
+5
+7 Electiva 2
+Negocios y Proyectos
+4
+8 Gerencia de Proyectos
+Negocios y Proyectos
+7
+8 Gestión de Incubación Startups
+Negocios y Proyectos
+6
+8 Taller de Grado
+Negocios y Proyectos
+7
+8 Electiva 3
+Negocios y Proyectos
+4
+6. Derecho (8 Semestres)
+Sem. Materia
+Área
+CR
+1 Metodología de la Investigación Justicia Restaurativa
+5
+1 Teoría General del Derecho
+Litigación
+5
+1 Derecho Civil I
+Interpretación
+5
+1 Oratoria Jurídica
+Pluralismo Jurídico
+5
+1 Criminología y Cs. Forenses
+Justicia Restaurativa
+5
+1 Derechos Humanos
+Derecho Ecológico
+5
+
+---PAGE BREAK---
+2 Ética y Ciudadanía Global
+Justicia Restaurativa
+5
+2 Derecho Civil II
+Interpretación
+5
+2 Derecho Constitucional I
+Litigación
+5
+2 Interpretación y Arg. Jurídica
+Interpretación
+5
+2 Derecho Penal I
+Litigación
+5
+2 Derecho Romano
+Pluralismo Jurídico
+5
+3 Derecho Civil III
+Interpretación
+5
+3 Derecho Constitucional II
+Litigación
+5
+3 Derecho Penal II
+Litigación
+5
+3 Derecho Administrativo I
+Pluralismo Jurídico
+5
+3 LegalTech I
+Derecho Digital
+5
+3 Sociología Jurídica
+Pluralismo Jurídico
+5
+4 Derecho Civil IV
+Interpretación
+5
+4 Derecho Administrativo II
+Pluralismo Jurídico
+5
+4 Derecho Procesal Org. Judicial Litigación
+5
+4 Derecho Internacional Público
+Pluralismo Jurídico
+5
+4 LegalTech II
+Derecho Digital
+5
+4 Redacción Jurídica
+Pluralismo Jurídico
+5
+5 Derecho Civil V
+Interpretación
+5
+5 Derecho de Familia
+Pluralismo Jurídico
+5
+5 Derecho Procesal Civil I
+Litigación
+5
+5 Derecho Procesal Penal
+Litigación
+5
+5 Derecho Laboral
+Pluralismo Jurídico
+5
+5 Derecho Ecológico
+Derecho Ecológico
+5
+6 Derecho Procesal Civil II
+Litigación
+5
+6 Práctica Forense Penal
+Litigación
+5
+6 Derecho Societario
+Pluralismo Jurídico
+5
+6 Derecho Autonómico
+Pluralismo Jurídico
+5
+6 Justicia Restaurativa
+Justicia Restaurativa
+5
+6 Derecho Agroambiental
+Derecho Ecológico
+5
+7 Derecho Tributario
+Pluralismo Jurídico
+5
+7 Derecho Notarial
+Pluralismo Jurídico
+5
+7 Litigación Estratégica
+Litigación
+5
+7 Medicina Legal
+Justicia Restaurativa
+5
+7 Taller de Grado I
+Litigación
+7
+
+---PAGE BREAK---
+7 Electiva 1
+Especialización
+4
+8 Derecho Internacional Privado
+Pluralismo Jurídico
+5
+8 Conciliación y Arbitraje
+Justicia Restaurativa
+5
+8 Filosofía del Derecho
+Pluralismo Jurídico
+5
+8 Taller de Grado II
+Litigación
+7
+8 Electiva 2
+Especialización
+4
+7. Ingeniería Industrial (9 Semestres)
+Sem. Materia
+Área
+CR
+1 Fundamentos de Matemáticas
+Cs. Básicas
+5
+1 Química General
+Ingeniería Aplicada
+5
+1 Física I
+Innovación Tecnológica
+5
+1 Metodología de la Investigación
+Cs. Básicas
+5
+1 Programación Básica
+Innovación Tecnológica
+5
+1 Inglés Técnico I
+Cs. de la Ingeniería
+5
+2 Álgebra Lineal
+Cs. Básicas
+6
+2 Cálculo I
+Cs. Básicas
+6
+2 Física II
+Innovación Tecnológica
+5
+2 Química Orgánica
+Ingeniería Aplicada
+6
+2 Dibujo Computarizado
+Innovación Tecnológica
+5
+2 Ética y Ciudadanía Global
+Cs. de la Ingeniería
+5
+3 Cálculo II
+Cs. Básicas
+6
+3 Termodinámica
+Innovación Tecnológica
+6
+3 Estadística Descriptiva
+Cs. Básicas
+5
+3 Contabilidad Empresarial I
+Ingeniería Aplicada
+5
+3 Introducción a la Economía
+Ingeniería Aplicada
+5
+3 Electrotecnia Industrial
+Innovación Tecnológica
+6
+4 Dinámica de Fluidos
+Innovación Tecnológica
+6
+4 Operaciones Unitarias I
+Innovación Tecnológica
+6
+4 Investigación Operativa I
+Cs. Básicas
+6
+4 Estadística Inferencial
+Cs. Básicas
+5
+4 Contabilidad de Costos I
+Ingeniería Aplicada
+6
+4 Gestión del Talento Humano
+Cs. de la Ingeniería
+5
+5 Operaciones Unitarias II
+Innovación Tecnológica
+6
+5 Investigación Operativa II
+Cs. Básicas
+6
+
+---PAGE BREAK---
+5 Procesos Industriales I
+Innovación Tecnológica
+6
+5 Control Estadístico de Calidad
+Cs. Básicas
+6
+5 Ingeniería de Métodos
+Innovación Tecnológica
+6
+6 Procesos Industriales II
+Innovación Tecnológica
+6
+6 Gestión de la Calidad
+Cs. de la Ingeniería
+6
+6 Producción y Manufactura I
+Innovación Tecnológica
+5
+6 Gestión del Mantenimiento
+Innovación Tecnológica
+6
+6 Investigación de Mercados I
+Ingeniería Aplicada
+6
+7 IA para la Innovación
+Innovación Tecnológica
+6
+7 Producción y Manufactura II
+Innovación Tecnológica
+5
+7 Seguridad e Higiene Industrial
+Innovación Tecnológica
+5
+7 Automatización Industrial
+Innovación Tecnológica
+6
+7 Ingeniería Financiera
+Ingeniería Aplicada
+5
+7 Electiva 1
+Innovación Tecnológica
+4
+8 IA y Robótica
+Innovación Tecnológica
+6
+8 Gerencia Estratégica
+Cs. de la Ingeniería
+6
+8 Gestión de Datos
+Innovación Tecnológica
+6
+8 Marketing Digital
+Ingeniería Aplicada
+6
+8 Prep. y Evaluación de Proyectos Ingeniería Aplicada
+7
+8 Electiva 2
+Innovación Tecnológica
+4
+9 Gerencia de Proyectos
+Cs. de la Ingeniería
+7
+9 Instalaciones Industriales
+Innovación Tecnológica
+6
+9 Gestión Ambiental
+Innovación Tecnológica
+5
+9 Electiva 3
+Innovación Tecnológica
+4
+8. Ingeniería en Redes y Telecomunicaciones (9 Semestres)
+Sem. Materia
+Área
+CR
+1 Programación Básica
+Cs. de la Ingeniería
+5
+1 Hardware, Software y Redes
+Cs. Complementarias
+5
+1 Metodología de la Investigación Cs. Básicas
+5
+1 Fundamentos de Matemáticas
+Cs. Básicas
+5
+1 Inglés Técnico I
+Cs. Complementarias
+5
+1 Estructuras Discretas
+Cs. Complementarias
+5
+
+---PAGE BREAK---
+2 Programación I
+Cs. de la Ingeniería
+6
+2 Sistemas Operativos I
+Cs. Complementarias
+6
+2 Cálculo I
+Cs. Básicas
+6
+2 Álgebra Lineal
+Cs. Básicas
+6
+2 Física I
+Cs. Básicas
+5
+2 Ética y Ciudadanía Global
+Cs. Complementarias
+5
+3 Programación II
+Cs. de la Ingeniería
+6
+3 Sistemas Operativos II
+Cs. Complementarias
+5
+3 Redes I
+Ingeniería Aplicada
+6
+3 Estadística Descriptiva
+Cs. Básicas
+5
+3 Sistemas Digitales I
+Cs. Básicas
+6
+3 Fundamentos de Telecom
+Ingeniería Aplicada
+6
+4 Base de Datos I
+Cs. de la Ingeniería
+6
+4 Redes II
+Ingeniería Aplicada
+6
+4 Redacción Científica
+Cs. Básicas
+5
+4 Criptografía Aplicada
+Ciberseguridad
+6
+4 Antenas y Propagación
+Ingeniería Aplicada
+6
+4 Fundamentos de Seguridad Info Ciberseguridad
+6
+5 Programación Web
+Cs. de la Ingeniería
+6
+5 Redes III
+Ingeniería Aplicada
+6
+5 Hacking Ético
+Ciberseguridad
+6
+5 Sistemas IoT Esenciales
+IoT y Nube
+6
+5 Protocolos IP Multimedia
+Ingeniería Aplicada
+6
+5 Pentesting
+Ciberseguridad
+6
+6 Seguridad de Redes
+Ciberseguridad
+6
+6 Emprendedurismo e Innovación Ingeniería Aplicada
+6
+6 Redes Definidas por Software
+Ingeniería Aplicada
+6
+6 Programación IoT y Datos
+IoT y Nube
+6
+6 Fundamentos de Cloud
+IoT y Nube
+6
+6 Seguridad Cloud
+IoT y Nube
+6
+7 Administración de Servidores
+Cs. Complementarias
+6
+7 Ingeniería Forense
+Ciberseguridad
+6
+7 Arquitectura Soluciones Nube
+IoT y Nube
+6
+7 Automatización y Entrega Cont. IoT y Nube
+6
+7 Seguridad Apps Web
+Ciberseguridad
+6
+
+---PAGE BREAK---
+7 Electiva 1
+Complementaria
+4
+8 Redes para la Nube
+IoT y Nube
+6
+8 Contenedores y Orquestación
+IoT y Nube
+6
+8 Ingeniería Social
+Ciberseguridad
+6
+8 Continuidad del Negocio
+Ciberseguridad
+6
+8 Normativa y Ética Ciber
+Ciberseguridad
+6
+8 Electiva 2
+Complementaria
+4
+9 Diseño Infraestructura Segura
+Ciberseguridad
+6
+9 Cloud para IoT
+IoT y Nube
+4
+9 Diseño Sistemas Inalámbricos
+Ingeniería Aplicada
+6
+9. Ingeniería en Gestión Petrolera (9 Semestres)
+Sem. Materia
+Área
+CR
+1 Fundamentos de Matemáticas
+Matemáticas
+6
+1 Física I
+Física
+5
+1 Química General e Inorgánica
+Química
+5
+1 Técnicas de Investigación
+Investigación
+5
+1 Inglés I
+Lengua Extranjera
+5
+2 Cálculo I
+Matemáticas
+6
+2 Física II
+Física
+5
+2 Química Orgánica
+Química
+5
+2 Geología Estructural
+Geología
+5
+2 Informática para Ingeniería
+Sistemas
+6
+2 Deontología y Prosocialidad
+Humanidades
+5
+3 Cálculo II
+Matemáticas
+6
+3 Termodinámica
+Química
+5
+3 Estadística Descriptiva
+Matemáticas
+5
+3 Geología del Petróleo
+Geología
+6
+3 Introducción a la Economía
+Economía
+5
+3 Dibujo Industrial Computarizado Sistemas
+5
+4 Estadística Inferencial
+Matemáticas
+5
+4 Mecánica de Fluidos
+Física
+5
+4 Resistencia de Materiales
+Física
+6
+4 Reservorios I
+Reservorios
+5
+4 Petrofísica y Registro Pozo
+Reservorios
+5
+
+---PAGE BREAK---
+4 Cadena de Valor Gas Natural
+Producción
+5
+5 Investigación Operativa I
+Matemáticas
+6
+5 Reservorios II
+Reservorios
+5
+5 Elementos de Perforación
+Perforación
+6
+5 Ingeniería Económica
+Economía
+5
+5 Fluidos de Perforación
+Perforación
+5
+5 Tecnología del Gas Natural
+Producción
+5
+6 Ingeniería de Reservorios Gas
+Reservorios
+5
+6 Ingeniería de Perforación
+Perforación
+6
+6 Producción Petrolera I
+Producción
+6
+6 Cementación de Pozos
+Perforación
+5
+6 Seguridad e Higiene
+Industrial
+5
+6 Métodos y Técnicas de Inv.
+Investigación
+5
+7 Caracterización de Yacimientos Reservorios
+5
+7 Perforación de Pozos Horiz.
+Perforación
+5
+7 Producción Petrolera II
+Producción
+6
+7 Derecho Petrolero
+Legal
+5
+7 Emprendedurismo
+Gestión
+5
+8 Recuperación Mejorada
+Reservorios
+5
+8 Transporte y Almacenaje
+Producción
+5
+8 Refinación e Industrialización
+Producción
+5
+8 Manejo de Producción Hidroc.
+Producción
+5
+8 Planeación y Adm. Proyectos
+Gestión
+6
+9 Simulación de Reservorios
+Reservorios
+6
+9 Gestión Ambiental Petrolera
+Industrial
+5
+9 Comercialización Hidroc.
+Economía
+5
+9 Taller de Grado
+Investigación
+7
+
+---PAGE BREAK---

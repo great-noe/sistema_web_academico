@@ -1,8 +1,8 @@
 <script setup>
-import { onMounted, ref, computed } from 'vue'
+import { onMounted, ref, computed, watch } from 'vue'
 import { useCursosStore } from '../stores/cursos'
 import { useAuthStore } from '../stores/auth'
-import axios from 'axios'
+import api from '../servicios/api'
 
 const cursosStore = useCursosStore()
 const authStore = useAuthStore()
@@ -12,11 +12,11 @@ const isDocente = computed(() => authStore.hasRole(['Docente']))
 const isEstudiante = computed(() => authStore.hasRole(['Estudiante']))
 
 const showModal = ref(false)
+const showCalificacionesModal = ref(false)
 const modalMode = ref('crear') // 'crear' | 'editar'
 const currentCursoId = ref(null)
 const docentesList = ref([])
-
-const showCalificacionesModal = ref(false)
+const materiasList = ref([])
 const calificacionesList = ref([])
 const activeCurso = ref(null)
 
@@ -26,7 +26,9 @@ const formData = ref({
   periodo: '',
   gestion: new Date().getFullYear(),
   cupo: 40,
-  docente_id: '',
+  docente_ci: '',
+  materia_codigo: '',
+  fecha_inicio: '',
   estado: 'activo'
 })
 
@@ -42,10 +44,14 @@ onMounted(async () => {
   
   if (isAdmin.value) {
     try {
-      const resp = await axios.get('http://localhost:3001/api/usuarios/docentes')
-      docentesList.value = resp.data
+      const [docResp, matResp] = await Promise.all([
+        api.get('/usuarios/docentes'),
+        api.get('/cursos/materias')
+      ])
+      docentesList.value = docResp.data
+      materiasList.value = matResp.data
     } catch (e) {
-      console.error('Error al cargar docentes', e)
+      console.error('Error al cargar datos del formulario', e)
     }
   }
 })
@@ -77,7 +83,7 @@ const openModal = (curso = null) => {
   if (curso) {
     modalMode.value = 'editar'
     currentCursoId.value = curso.id
-    formData.value = { ...curso, docente_id: curso.docente_id || '' }
+    formData.value = { ...curso, docente_ci: curso.docente_ci || '' }
   } else {
     modalMode.value = 'crear'
     currentCursoId.value = null
@@ -87,7 +93,9 @@ const openModal = (curso = null) => {
       periodo: 'Semestre 1',
       gestion: new Date().getFullYear(),
       cupo: 40,
-      docente_id: '',
+      docente_ci: '',
+      materia_codigo: '',
+      fecha_inicio: '',
       estado: 'activo'
     }
   }
@@ -99,7 +107,7 @@ const closeModal = () => {
 }
 
 const saveCurso = async () => {
-  if (!formData.value.docente_id) {
+  if (!formData.value.docente_ci) {
     alert('Debes asignar un docente al curso.')
     return
   }
@@ -134,7 +142,7 @@ const openCalificaciones = async (curso) => {
   const result = await cursosStore.getCalificaciones(curso.id)
   if (result.success) {
     calificacionesList.value = result.data.map(c => ({
-      estudiante_id: c.estudiante_id,
+      estudiante_ci: c.estudiante_ci,
       nombre: c.nombre,
       registro: c.registro,
       nota_final: c.nota_final || '',
@@ -145,6 +153,16 @@ const openCalificaciones = async (curso) => {
     alert(result.message)
   }
 }
+
+watch(() => formData.value.materia_codigo, (newVal) => {
+  if (!newVal || modalMode.value !== 'crear') return
+  const materia = materiasList.value.find(m => m.codigo === newVal)
+  if (materia) {
+    formData.value.codigo = materia.codigo
+    formData.value.nombre = materia.nombre
+    formData.value.periodo = `Semestre ${materia.semestre}`
+  }
+})
 
 const submitCalificaciones = async () => {
   const result = await cursosStore.saveCalificaciones(activeCurso.value.id, calificacionesList.value)
@@ -206,6 +224,7 @@ const submitCalificaciones = async () => {
       <article v-for="curso in cursosStore.cursos" :key="curso.id" class="curso-card">
         <header class="curso-header">
           <span class="curso-code">{{ curso.codigo }}</span>
+          <span class="curso-id">#{{ curso.id }}</span>
           <span class="curso-status" :class="curso.estado.toLowerCase()">{{ curso.estado }}</span>
         </header>
         
@@ -215,6 +234,10 @@ const submitCalificaciones = async () => {
           <div class="meta-item">
             <span class="icon">📅</span>
             <span>{{ curso.periodo }} - {{ curso.gestion }}</span>
+          </div>
+          <div class="meta-item" v-if="curso.fecha_inicio">
+            <span class="icon">📆</span>
+            <span>{{ curso.fecha_inicio.slice(0,10) }} al {{ curso.fecha_fin?.slice(0,10) }}</span>
           </div>
           <div class="meta-item">
             <span class="icon">👨‍🏫</span>
@@ -289,12 +312,28 @@ const submitCalificaciones = async () => {
 
           <div class="form-group">
             <label>Docente Asignado</label>
-            <select v-model="formData.docente_id" required>
+            <select v-model="formData.docente_ci" required>
               <option value="" disabled>Selecciona un docente</option>
-              <option v-for="docente in docentesList" :key="docente.id" :value="docente.id">
+              <option v-for="docente in docentesList" :key="docente.ci" :value="docente.ci">
                 {{ docente.nombre }} ({{ docente.codigo_docente || 'Sin código' }})
               </option>
             </select>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Fecha de Inicio</label>
+              <input v-model="formData.fecha_inicio" type="date" required />
+            </div>
+            <div class="form-group" v-if="modalMode === 'crear'">
+              <label>Materia</label>
+              <select v-model="formData.materia_codigo">
+                <option value="">Sin materia</option>
+                <option v-for="m in materiasList" :key="m.codigo" :value="m.codigo">
+                  {{ m.codigo }} - {{ m.nombre }} ({{ m.carrera }})
+                </option>
+              </select>
+            </div>
           </div>
 
           <div class="form-group" v-if="modalMode === 'editar'">
@@ -339,7 +378,7 @@ const submitCalificaciones = async () => {
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="est in calificacionesList" :key="est.estudiante_id">
+                <tr v-for="est in calificacionesList" :key="est.estudiante_ci">
                   <td class="mono">{{ est.registro || 'S/N' }}</td>
                   <td>{{ est.nombre }}</td>
                   <td>
@@ -427,7 +466,7 @@ const submitCalificaciones = async () => {
 }
 
 .loading-state, .error-state, .empty-state {
-  background: white;
+  background: var(--panel-strong);
   border-radius: var(--radius-lg);
   padding: 48px;
   text-align: center;
@@ -446,7 +485,7 @@ const submitCalificaciones = async () => {
 }
 
 .curso-card {
-  background: white;
+  background: var(--panel-strong);
   border-radius: var(--radius-lg);
   padding: 24px;
   border: 1px solid var(--line);
@@ -479,6 +518,18 @@ const submitCalificaciones = async () => {
   color: var(--accent-strong);
 }
 
+.curso-id {
+  background: var(--accent-soft);
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: var(--accent-strong);
+  margin-left: auto;
+  margin-right: 8px;
+}
+
 .curso-status {
   font-size: 0.8rem;
   font-weight: 700;
@@ -487,9 +538,9 @@ const submitCalificaciones = async () => {
   border-radius: 999px;
 }
 
-.curso-status.activo { background: #dcfce7; color: #15803d; }
-.curso-status.cerrado { background: #fef3c7; color: #b45309; }
-.curso-status.cancelado { background: #fee2e2; color: #b91c1c; }
+.curso-status.activo { background: rgba(16, 185, 129, 0.12); color: var(--success); }
+.curso-status.cerrado { background: rgba(245, 158, 11, 0.12); color: var(--warm); }
+.curso-status.cancelado { background: rgba(239, 68, 68, 0.12); color: var(--danger); }
 
 .curso-card h2 {
   font-size: 1.4rem;
@@ -540,8 +591,8 @@ const submitCalificaciones = async () => {
 }
 
 .btn-icon.delete:hover {
-  background: #fef2f2;
-  border-color: #fca5a5;
+  background: rgba(239, 68, 68, 0.1);
+  border-color: var(--danger);
 }
 
 .btn-full {
@@ -555,7 +606,7 @@ const submitCalificaciones = async () => {
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.6);
+  background: var(--overlay);
   backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
@@ -564,11 +615,11 @@ const submitCalificaciones = async () => {
 }
 
 .modal {
-  background: white;
+  background: var(--panel-strong);
   border-radius: var(--radius-xl);
   width: 100%;
   max-width: 500px;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  box-shadow: var(--shadow-hover);
   overflow: hidden;
 }
 

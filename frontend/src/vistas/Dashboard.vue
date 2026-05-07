@@ -1,7 +1,10 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { useAuthStore } from '../stores/auth'
+import api from '../servicios/api'
 
+const router = useRouter()
 const authStore = useAuthStore()
 const user = computed(() => authStore.user)
 const role = computed(() => authStore.userRole)
@@ -9,6 +12,30 @@ const role = computed(() => authStore.userRole)
 const isEstudiante = computed(() => role.value === 'Estudiante')
 const isDocente = computed(() => role.value === 'Docente')
 const isAdmin = computed(() => role.value === 'Administrador')
+
+const stats = ref({
+  docentes: 0,
+  estudiantes: 0,
+  materias: 0,
+  cursos: 0,
+  administrativos: 0,
+  misCursos: 0,
+  promedio: 0,
+})
+const loadingStats = ref(true)
+
+onMounted(async () => {
+  try {
+    const res = await api.get('/dashboard/stats')
+    stats.value = res.data
+  } catch (e) {
+    console.error('Error al cargar estadísticas', e)
+  } finally {
+    loadingStats.value = false
+  }
+})
+
+const goTo = (path) => router.push(path)
 </script>
 
 <template>
@@ -23,84 +50,90 @@ const isAdmin = computed(() => role.value === 'Administrador')
       </p>
     </header>
 
+    <div v-if="loadingStats" class="stats-grid">
+      <div class="stat-card" v-for="n in 3" :key="n">
+        <div class="stat-info"><h3>Cargando...</h3><p>&nbsp;</p></div>
+      </div>
+    </div>
+
     <!-- ADMINISTRADOR STATS -->
-    <div v-if="isAdmin" class="stats-grid">
+    <div v-else-if="isAdmin" class="stats-grid">
       <div class="stat-card">
         <div class="stat-icon docs">👨‍🏫</div>
         <div class="stat-info">
-          <h3>142</h3>
+          <h3>{{ stats.docentes }}</h3>
           <p>Docentes Activos</p>
         </div>
       </div>
       <div class="stat-card">
         <div class="stat-icon est">👨‍🎓</div>
         <div class="stat-info">
-          <h3>3,245</h3>
+          <h3>{{ stats.estudiantes }}</h3>
           <p>Estudiantes Matriculados</p>
         </div>
       </div>
       <div class="stat-card">
         <div class="stat-icon mat">📚</div>
         <div class="stat-info">
-          <h3>86</h3>
+          <h3>{{ stats.materias }}</h3>
           <p>Materias Disponibles</p>
         </div>
       </div>
       <div class="stat-card">
         <div class="stat-icon admin">💼</div>
         <div class="stat-info">
-          <h3>24</h3>
+          <h3>{{ stats.administrativos }}</h3>
           <p>Personal Administrativo</p>
         </div>
       </div>
     </div>
 
     <!-- DOCENTE STATS -->
-    <div v-if="isDocente" class="stats-grid">
+    <div v-else-if="isDocente" class="stats-grid">
       <div class="stat-card">
         <div class="stat-icon mat">📚</div>
         <div class="stat-info">
-          <h3>4</h3>
+          <h3>{{ stats.cursos }}</h3>
           <p>Cursos Asignados</p>
         </div>
       </div>
       <div class="stat-card">
         <div class="stat-icon est">👨‍🎓</div>
         <div class="stat-info">
-          <h3>120</h3>
+          <h3>{{ stats.estudiantes }}</h3>
           <p>Alumnos Totales</p>
         </div>
       </div>
       <div class="stat-card">
         <div class="stat-icon docs">📝</div>
         <div class="stat-info">
-          <h3>2</h3>
+          <h3>{{ stats.misCursos }}</h3>
           <p>Actas Pendientes</p>
         </div>
       </div>
     </div>
 
     <!-- ESTUDIANTE STATS -->
-    <div v-if="isEstudiante" class="stats-grid">
+    <div v-else-if="isEstudiante" class="stats-grid">
       <div class="stat-card">
         <div class="stat-icon docs">📝</div>
         <div class="stat-info">
-          <h3>5</h3>
+          <h3>{{ stats.misCursos }}</h3>
           <p>Materias Inscritas</p>
         </div>
       </div>
       <div class="stat-card">
         <div class="stat-icon est">⭐</div>
         <div class="stat-info">
-          <h3>85/100</h3>
+          <h3>{{ stats.promedio }}/100</h3>
           <p>Promedio Semestral</p>
         </div>
       </div>
       <div class="stat-card">
         <div class="stat-icon admin">📅</div>
         <div class="stat-info">
-          <h3>Semestre 5</h3>
-          <p>Periodo Actual</p>
+          <h3>Periodo Actual</h3>
+          <p>Semestre en curso</p>
         </div>
       </div>
     </div>
@@ -166,22 +199,17 @@ const isAdmin = computed(() => role.value === 'Administrador')
             <span>Descargar Reportes</span>
           </router-link>
           
-          <button v-if="isAdmin || isDocente" class="action-btn-large">
+          <button v-if="isAdmin || isDocente" class="action-btn-large" @click="goTo('/cursos')">
             <span class="icon">📝</span>
             <span>{{ isAdmin ? 'Gestionar Notas' : 'Subir Calificaciones' }}</span>
           </button>
           
-          <button v-if="isAdmin" class="action-btn-large">
+          <button v-if="isAdmin" class="action-btn-large" @click="goTo('/usuarios')">
             <span class="icon">➕</span>
             <span>Nuevo Curso/Usuario</span>
           </button>
           
-          <button v-if="isEstudiante" class="action-btn-large">
-            <span class="icon">📅</span>
-            <span>Horarios</span>
-          </button>
-          
-          <button v-if="isEstudiante" class="action-btn-large">
+          <button v-if="isEstudiante" class="action-btn-large" @click="goTo('/cursos')">
             <span class="icon">📚</span>
             <span>Inscripción</span>
           </button>
@@ -214,7 +242,7 @@ const isAdmin = computed(() => role.value === 'Administrador')
 }
 
 .stat-card {
-  background: white;
+  background: var(--panel-strong);
   border-radius: var(--radius-lg);
   padding: 24px;
   display: flex;
@@ -240,10 +268,10 @@ const isAdmin = computed(() => role.value === 'Administrador')
   font-size: 2rem;
 }
 
-.stat-icon.docs { background: #e0f2fe; }
-.stat-icon.est { background: #dcfce7; }
-.stat-icon.mat { background: #fef3c7; }
-.stat-icon.admin { background: #f3e8ff; }
+.stat-icon.docs { background: rgba(56, 189, 248, 0.12); }
+.stat-icon.est { background: rgba(52, 211, 153, 0.12); }
+.stat-icon.mat { background: rgba(251, 191, 36, 0.12); }
+.stat-icon.admin { background: rgba(129, 140, 248, 0.12); }
 
 .stat-info h3 {
   margin: 0;
@@ -265,7 +293,7 @@ const isAdmin = computed(() => role.value === 'Administrador')
 }
 
 .panel {
-  background: white;
+  background: var(--panel-strong);
   border-radius: var(--radius-xl);
   padding: 32px;
   box-shadow: var(--shadow);
@@ -367,7 +395,7 @@ const isAdmin = computed(() => role.value === 'Administrador')
   color: white;
   transform: translateY(-4px);
   border-color: var(--accent);
-  box-shadow: 0 10px 20px rgba(79, 70, 229, 0.2);
+  box-shadow: 0 10px 20px rgba(79, 70, 229, 0.3);
 }
 
 @media (max-width: 1024px) {

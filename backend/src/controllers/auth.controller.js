@@ -1,47 +1,22 @@
 const { pool } = require('../config/db');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const env = require('../config/env');
+const { createUser } = require('../services/usuarios.service');
 
-const JWT_SECRET = process.env.JWT_SECRET || 'supersecreto_123';
+const JWT_SECRET = env.jwtSecret;
 
 const authController = {
-  // RF01 - Registro de usuarios (Simplified for API use or Admin)
+  // RF01 - Registro de usuarios
   async register(req, res) {
     try {
-      const { rol, nombres, apellidos, email, password } = req.body;
-      
-      // Validar rol
-      if (!['estudiante', 'docente', 'admin'].includes(rol)) {
-        return res.status(400).json({ message: 'Rol inválido' });
-      }
-
-      // Check si existe
-      const userExist = await pool.query('SELECT id FROM usuarios WHERE email = $1', [email]);
-      if (userExist.rows.length > 0) {
-        return res.status(400).json({ message: 'El correo ya está registrado' });
-      }
-
-      const salt = await bcrypt.genSalt(10);
-      const passwordHash = await bcrypt.hash(password, salt);
-
-      const result = await pool.query(
-        `INSERT INTO usuarios (rol, nombres, apellidos, email, password_hash) 
-         VALUES ($1, $2, $3, $4, $5) RETURNING id, rol, nombres, apellidos, email`,
-        [rol, nombres, apellidos, email, passwordHash]
-      );
-
-      // Si es estudiante o docente, crear en tabla específica
-      const user = result.rows[0];
-      if (rol === 'estudiante') {
-        await pool.query('INSERT INTO estudiantes (usuario_id) VALUES ($1)', [user.id]);
-      } else if (rol === 'docente') {
-        await pool.query('INSERT INTO docentes (usuario_id) VALUES ($1)', [user.id]);
-      }
-
+      const { ci, rol, nombres, apellidos, email, password } = req.body;
+      const user = await createUser({ ci, rol, nombres, apellidos, email, password });
       res.status(201).json({ message: 'Usuario registrado exitosamente', user });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: 'Error en el servidor al registrar usuario' });
+      const status = error.statusCode || 500;
+      res.status(status).json({ message: error.message || 'Error en el servidor al registrar usuario' });
     }
   },
 
@@ -64,7 +39,7 @@ const authController = {
       }
 
       const token = jwt.sign(
-        { id: user.id, rol: user.rol, email: user.email },
+        { id: user.ci, rol: user.rol, email: user.email },
         JWT_SECRET,
         { expiresIn: '24h' }
       );
@@ -76,7 +51,7 @@ const authController = {
       res.json({
         token,
         user: {
-          id: user.id,
+          ci: user.ci,
           name: `${user.nombres} ${user.apellidos}`,
           role: roleName,
           email: user.email,
@@ -93,7 +68,7 @@ const authController = {
   async getProfile(req, res) {
     try {
       const result = await pool.query(
-        'SELECT id, rol, nombres, apellidos, email FROM usuarios WHERE id = $1',
+        'SELECT ci, rol, nombres, apellidos, email FROM usuarios WHERE ci = $1',
         [req.user.id]
       );
       if (result.rows.length === 0) return res.status(404).json({ message: 'Usuario no encontrado' });
@@ -112,13 +87,13 @@ const authController = {
       const userId = req.user.id;
 
       // Check if email belongs to someone else
-      const checkEmail = await pool.query('SELECT id FROM usuarios WHERE email = $1 AND id != $2', [email, userId]);
+      const checkEmail = await pool.query('SELECT ci FROM usuarios WHERE email = $1 AND ci != $2', [email, userId]);
       if (checkEmail.rows.length > 0) {
         return res.status(400).json({ message: 'El correo ya está en uso por otra cuenta' });
       }
 
       const result = await pool.query(
-        'UPDATE usuarios SET nombres = $1, apellidos = $2, email = $3 WHERE id = $4 RETURNING id, rol, nombres, apellidos, email',
+        'UPDATE usuarios SET nombres = $1, apellidos = $2, email = $3 WHERE ci = $4 RETURNING ci, rol, nombres, apellidos, email',
         [nombres, apellidos, email, userId]
       );
 
@@ -135,7 +110,7 @@ const authController = {
       const { currentPassword, newPassword } = req.body;
       const userId = req.user.id;
 
-      const userQuery = await pool.query('SELECT password_hash FROM usuarios WHERE id = $1', [userId]);
+      const userQuery = await pool.query('SELECT password_hash FROM usuarios WHERE ci = $1', [userId]);
       if (userQuery.rows.length === 0) return res.status(404).json({ message: 'Usuario no encontrado' });
 
       const user = userQuery.rows[0];
@@ -148,7 +123,7 @@ const authController = {
       const salt = await bcrypt.genSalt(10);
       const newPasswordHash = await bcrypt.hash(newPassword, salt);
 
-      await pool.query('UPDATE usuarios SET password_hash = $1 WHERE id = $2', [newPasswordHash, userId]);
+      await pool.query('UPDATE usuarios SET password_hash = $1 WHERE ci = $2', [newPasswordHash, userId]);
 
       res.json({ message: 'Contraseña actualizada exitosamente' });
     } catch (error) {

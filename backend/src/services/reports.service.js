@@ -19,8 +19,8 @@ async function runReportQuery(baseQuery, values) {
 }
 
 async function getStudentGradesReport(studentId, filters = {}) {
-  const clauses = ['e.usuario_id = $1'];
-  const values = [Number(studentId)];
+  const clauses = ['e.usuario_ci = $1'];
+  const values = [String(studentId)];
 
   appendFilter(clauses, values, 'AND cu.periodo =', filters.periodo);
   appendFilter(clauses, values, 'AND cu.gestion =', filters.gestion, Number);
@@ -40,7 +40,7 @@ async function getStudentGradesReport(studentId, filters = {}) {
 
   const query = `
     SELECT
-      u.id AS alumno_id,
+      u.ci AS alumno_id,
       CONCAT(u.nombres, ' ', u.apellidos) AS alumno,
       e.registro,
       ca.nombre AS carrera,
@@ -52,12 +52,12 @@ async function getStudentGradesReport(studentId, filters = {}) {
       ce.estado AS estado_inscripcion,
       COALESCE(cal.nota_final, 0) AS nota_final
     FROM estudiantes e
-    INNER JOIN usuarios u ON u.id = e.usuario_id
+    INNER JOIN usuarios u ON u.ci = e.usuario_ci
     LEFT JOIN carreras ca ON ca.id = e.carrera_id
-    INNER JOIN curso_estudiantes ce ON ce.estudiante_id = e.usuario_id
+    INNER JOIN curso_estudiantes ce ON ce.estudiante_ci = e.usuario_ci
     INNER JOIN cursos cu ON cu.id = ce.curso_id
-    LEFT JOIN materias m ON m.id = cu.materia_id
-    LEFT JOIN calificaciones cal ON cal.curso_id = cu.id AND cal.estudiante_id = e.usuario_id
+    LEFT JOIN materias m ON m.codigo = cu.materia_codigo
+    LEFT JOIN calificaciones cal ON cal.curso_id = cu.id AND cal.estudiante_ci = e.usuario_ci
     WHERE ${clauses.join(' ')}
     ORDER BY cu.gestion DESC, cu.periodo DESC, curso ASC
   `;
@@ -66,7 +66,7 @@ async function getStudentGradesReport(studentId, filters = {}) {
 
   return {
     title: 'Notas por alumno',
-    subtitle: `Alumno ID ${studentId}`,
+    subtitle: `Alumno CI ${studentId}`,
     sheetName: 'Notas alumno',
     fileBaseName: `notas-alumno-${studentId}`,
     filters,
@@ -110,9 +110,9 @@ async function getCourseGradesReport(courseId, filters = {}) {
     FROM cursos cu
     LEFT JOIN carreras ca ON ca.id = cu.carrera_id
     INNER JOIN curso_estudiantes ce ON ce.curso_id = cu.id
-    INNER JOIN usuarios u ON u.id = ce.estudiante_id
-    LEFT JOIN estudiantes e ON e.usuario_id = u.id
-    LEFT JOIN calificaciones cal ON cal.curso_id = cu.id AND cal.estudiante_id = u.id
+    INNER JOIN usuarios u ON u.ci = ce.estudiante_ci
+    LEFT JOIN estudiantes e ON e.usuario_ci = u.ci
+    LEFT JOIN calificaciones cal ON cal.curso_id = cu.id AND cal.estudiante_ci = u.ci
     WHERE ${clauses.join(' ')}
     ORDER BY alumno ASC
   `;
@@ -141,8 +141,8 @@ async function getCourseGradesReport(courseId, filters = {}) {
 }
 
 async function getStudentHistoryReport(studentId, filters = {}) {
-  const clauses = ['e.usuario_id = $1'];
-  const values = [Number(studentId)];
+  const clauses = ['e.usuario_ci = $1'];
+  const values = [String(studentId)];
 
   appendFilter(clauses, values, 'AND cu.gestion =', filters.gestion, Number);
   appendFilter(clauses, values, 'AND cu.periodo =', filters.periodo);
@@ -160,12 +160,12 @@ async function getStudentHistoryReport(studentId, filters = {}) {
       cu.gestion,
       COALESCE(cal.nota_final, 0) AS nota_final
     FROM estudiantes e
-    INNER JOIN usuarios u ON u.id = e.usuario_id
+    INNER JOIN usuarios u ON u.ci = e.usuario_ci
     LEFT JOIN carreras ca ON ca.id = e.carrera_id
-    INNER JOIN curso_estudiantes ce ON ce.estudiante_id = e.usuario_id
+    INNER JOIN curso_estudiantes ce ON ce.estudiante_ci = e.usuario_ci
     INNER JOIN cursos cu ON cu.id = ce.curso_id
-    LEFT JOIN materias m ON m.id = cu.materia_id
-    LEFT JOIN calificaciones cal ON cal.curso_id = cu.id AND cal.estudiante_id = e.usuario_id
+    LEFT JOIN materias m ON m.codigo = cu.materia_codigo
+    LEFT JOIN calificaciones cal ON cal.curso_id = cu.id AND cal.estudiante_ci = e.usuario_ci
     WHERE ${clauses.join(' ')}
     ORDER BY semestre_plan ASC, cu.gestion ASC, cu.periodo ASC, materia ASC
   `;
@@ -178,7 +178,7 @@ async function getStudentHistoryReport(studentId, filters = {}) {
 
   return {
     title: 'Historial academico del alumno',
-    subtitle: `Alumno ID ${studentId} | Promedio general ${promedio}`,
+    subtitle: `Alumno CI ${studentId} | Promedio general ${promedio}`,
     sheetName: 'Historial academico',
     fileBaseName: `historial-academico-${studentId}`,
     filters,
@@ -218,9 +218,9 @@ async function getCourseStudentsReport(courseId, filters = {}) {
       COALESCE(cal.nota_final, 0) AS nota_final
     FROM cursos cu
     INNER JOIN curso_estudiantes ce ON ce.curso_id = cu.id
-    INNER JOIN usuarios u ON u.id = ce.estudiante_id
-    LEFT JOIN estudiantes e ON e.usuario_id = u.id
-    LEFT JOIN calificaciones cal ON cal.curso_id = cu.id AND cal.estudiante_id = u.id
+    INNER JOIN usuarios u ON u.ci = ce.estudiante_ci
+    LEFT JOIN estudiantes e ON e.usuario_ci = u.ci
+    LEFT JOIN calificaciones cal ON cal.curso_id = cu.id AND cal.estudiante_ci = u.ci
     WHERE ${clauses.join(' ')}
     ORDER BY alumno ASC
   `;
@@ -248,8 +248,8 @@ async function getCourseStudentsReport(courseId, filters = {}) {
 }
 
 async function getStudentCoursesReport(studentId, filters = {}) {
-  const clauses = ['e.usuario_id = $1'];
-  const values = [Number(studentId)];
+  const clauses = ['e.usuario_ci = $1'];
+  const values = [String(studentId)];
 
   appendFilter(clauses, values, 'AND cu.gestion =', filters.gestion, Number);
   appendFilter(clauses, values, 'AND cu.periodo =', filters.periodo);
@@ -273,11 +273,11 @@ async function getStudentCoursesReport(studentId, filters = {}) {
       ce.estado AS estado_inscripcion,
       COALESCE(cal.nota_final, 0) AS nota_final
     FROM estudiantes e
-    INNER JOIN usuarios u ON u.id = e.usuario_id
+    INNER JOIN usuarios u ON u.ci = e.usuario_ci
     LEFT JOIN carreras ca ON ca.id = e.carrera_id
-    INNER JOIN curso_estudiantes ce ON ce.estudiante_id = e.usuario_id
+    INNER JOIN curso_estudiantes ce ON ce.estudiante_ci = e.usuario_ci
     INNER JOIN cursos cu ON cu.id = ce.curso_id
-    LEFT JOIN calificaciones cal ON cal.curso_id = cu.id AND cal.estudiante_id = e.usuario_id
+    LEFT JOIN calificaciones cal ON cal.curso_id = cu.id AND cal.estudiante_ci = e.usuario_ci
     WHERE ${clauses.join(' ')}
     ORDER BY cu.gestion DESC, cu.periodo DESC, curso ASC
   `;
@@ -286,7 +286,7 @@ async function getStudentCoursesReport(studentId, filters = {}) {
 
   return {
     title: 'Listado de cursos del alumno',
-    subtitle: `Alumno ID ${studentId}`,
+    subtitle: `Alumno CI ${studentId}`,
     sheetName: 'Cursos alumno',
     fileBaseName: `cursos-alumno-${studentId}`,
     filters,
@@ -307,8 +307,8 @@ async function getStudentCoursesReport(studentId, filters = {}) {
 }
 
 async function getTeacherCoursesReport(teacherId, filters = {}) {
-  const clauses = ['cu.docente_id = $1'];
-  const values = [Number(teacherId)];
+  const clauses = ['cu.docente_ci = $1'];
+  const values = [String(teacherId)];
 
   appendFilter(clauses, values, 'AND cu.gestion =', filters.gestion, Number);
   appendFilter(clauses, values, 'AND cu.periodo =', filters.periodo);
@@ -328,10 +328,10 @@ async function getTeacherCoursesReport(teacherId, filters = {}) {
       cu.nombre AS curso,
       cu.periodo,
       cu.gestion,
-      COUNT(ce.estudiante_id) AS total_inscritos
+      COUNT(ce.estudiante_ci) AS total_inscritos
     FROM cursos cu
-    INNER JOIN usuarios u ON u.id = cu.docente_id
-    LEFT JOIN docentes d ON d.usuario_id = u.id
+    INNER JOIN usuarios u ON u.ci = cu.docente_ci
+    LEFT JOIN docentes d ON d.usuario_ci = u.ci
     LEFT JOIN carreras ca ON ca.id = cu.carrera_id
     LEFT JOIN curso_estudiantes ce ON ce.curso_id = cu.id
     WHERE ${clauses.join(' ')}
@@ -343,7 +343,7 @@ async function getTeacherCoursesReport(teacherId, filters = {}) {
 
   return {
     title: 'Listado de cursos del docente',
-    subtitle: `Docente ID ${teacherId}`,
+    subtitle: `Docente CI ${teacherId}`,
     sheetName: 'Cursos docente',
     fileBaseName: `cursos-docente-${teacherId}`,
     filters,
